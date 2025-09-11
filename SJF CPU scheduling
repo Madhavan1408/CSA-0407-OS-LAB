@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Sep 10 14:20:15 2025
+
+@author: MADHAVAN MADDY
+"""
+
+n=int(input("enter the no of processes: "))
+burst_time=[]
+waiting_time=[0]*n
+turnaround_time=[0]*n
+for i in range(n):
+    bt=int(input(f"enter the burst time for p{(i+1)}: "))
+    burst_time.append((i+1,bt))
+print(burst_time)
+burst_time.sort(key=lambda x:x[1])
+print(burst_time)
+for i in range(1,n):
+    waiting_time[i]=waiting_time[i-1]+burst_time[i-1][1]
+for i in range(n):
+    turnaround_time[i]=burst_time[i][1]+waiting_time[i]
+print("process\tburst time\twaiting time\t turn around time")
+for i in range(n):
+    print(f"P{i+1}\t\t{burst_time[i]}\t\t\t{waiting_time[i]}\t\t\t\t{turnaround_time[i]}")
+    
