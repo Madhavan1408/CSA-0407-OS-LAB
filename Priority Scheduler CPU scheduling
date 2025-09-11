@@ -1,0 +1,35 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Sep 10 14:42:25 2025
+
+@author: MADHAVAN MADDY
+"""
+class Process:
+    def __init__(self,pid,burst_time,priority):
+        self.pid=pid
+        self.burst_time=burst_time
+        self.priority=priority
+        self.waiting_time=0
+        self.turnaround_time=0
+        
+def priority_schedule(processes):
+    processes.sort(key=lambda x:(-x.priority,x.pid))
+    total_wt=0
+    total_tt=0
+    for i in range(n):
+        if i==0:
+            processes[i].waiting_time=0
+        else:
+            processes[i].waiting_time=processes[i-1].waiting_time+processes[i-1].burst_time
+            processes[i].turnaround_time=processes[i].burst_time+processes[i].waiting_time
+        total_wt+=processes[i].waiting_time
+        total_tt=processes[i].turnaround_time
+    for p in processes:
+        print(f" {p.pid}\t{p.burst_time}\t{p.waiting_time}\t{p.turnaround_time}")
+n=int(input("enter the number of processes: "))
+processes=[]
+for i in range(n):
+    bt=int(input(f"enter the burst time for p{i+1}: "))
+    pr=int(input(f"enter the priority for p{i+1}: "))
+    processes.append(Process(pid=i+1,burst_time=bt,priority=pr))
+priority_schedule(processes)
