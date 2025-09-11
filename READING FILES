@@ -1,0 +1,14 @@
+import os
+src = "source.txt"
+dst = "destination.txt"
+fd_src = os.open(src, os.O_RDONLY)
+fd_dst = os.open(dst, os.O_WRONLY | os.O_CREAT | os.O_TRUNC)
+while True:
+    data = os.read(fd_src, 1024)   
+    if not data:  
+        break
+    os.write(fd_dst, data) 
+os.close(fd_src)
+os.close(fd_dst)
+
+print(f"Contents of '{src}' copied to '{dst}' successfully!")
