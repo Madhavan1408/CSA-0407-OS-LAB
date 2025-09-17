@@ -1,0 +1,15 @@
+def fcfs_scheduling(requests,start):
+  order=[]
+  movement=[]
+  present=start
+  for r in requests:
+    move=abs(r-present)
+    movement.append(move)
+    order.append(r)
+    present=r
+  total=sum(movement)
+  return order,movement,total
+order,movement,total=fcfs_scheduling(requests,start)
+print(order)
+print(movement)
+print(total)
