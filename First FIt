@@ -1,0 +1,18 @@
+def first_fit(blocks,memory):
+  orginal_block=blocks.copy()
+  allocation=[-1]*(len(memory))
+  for i in range(len(memory)):
+    for j in range(len(blocks)):
+      if blocks[j]>=memory[i]:
+        allocation[i]=j
+        blocks[j]-=memory[i]
+        break
+  for i in range(len(memory)):
+   
+      if allocation[i]!=-1:
+        print(f" size({memory[i]}) -> is allocated to block {orginal_block[allocation[i]]}")
+      else:
+        print(f" size({memory[i]}) -> not allocated")
+blocks=[100,200,300,400,500,600]
+memory=[123,234,156,567,987]
+first_fit(blocks,memory)
