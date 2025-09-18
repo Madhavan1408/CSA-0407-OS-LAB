@@ -1,0 +1,55 @@
+# Pre-Emptive Priority Scheduling
+
+n = int(input("Enter the Number of Processes: "))
+burst_time = []
+priority = []
+arrival_time = []
+processes = [f"P{i+1}" for i in range(n)]
+
+for i in range(n):
+    at = int(input(f"Enter the Arrival Time for the process {processes[i]}: "))
+    bt = int(input(f"Enter the Burst Time for the process {processes[i]}: "))
+    pr = int(input(f"Enter the Priority for the process {processes[i]} (lower number = higher priority): "))
+    arrival_time.append(at)
+    burst_time.append(bt)
+    priority.append(pr)
+
+remaining_time = burst_time[:]
+waiting_time = [0] * n
+turnaround_time = [0] * n
+completion_time = [0] * n
+
+time = 0
+completed = 0
+
+while completed < n:
+    idx = -1
+    highest_priority = 9999999
+    for i in range(n):
+        if arrival_time[i] <= time and remaining_time[i] > 0:
+            if priority[i] < highest_priority:
+                highest_priority = priority[i]
+                idx = i
+            elif priority[i] == highest_priority:
+                if arrival_time[i] < arrival_time[idx]:
+                    idx = i
+
+    if idx != -1:
+        remaining_time[idx] -= 1
+        time += 1
+        if remaining_time[idx] == 0:
+            completed += 1
+            completion_time[idx] = time
+            turnaround_time[idx] = completion_time[idx] - arrival_time[idx]
+            waiting_time[idx] = turnaround_time[idx] - burst_time[idx]
+    else:
+        time += 1
+
+print("\nProcess\tArrival Time\tBurst Time\tPriority\tWaiting Time\tTurnaround Time")
+for i in range(n):
+    print(f"{processes[i]}\t\t{arrival_time[i]}\t\t{burst_time[i]}\t\t{priority[i]}\t\t{waiting_time[i]}\t\t{turnaround_time[i]}")
+
+avg_wt = sum(waiting_time) / n
+avg_tat = sum(turnaround_time) / n
+print(f"\nAverage Waiting Time: {avg_wt}")
+print(f"Average Turnaround Time: {avg_tat}")
