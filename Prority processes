@@ -1,0 +1,42 @@
+def priority_scheduling(processes, burst_time, arrival_time, priority):
+    n = len(processes)
+    completed = [False] * n
+    time = 0
+    ct, tat, wt = [0] * n, [0] * n, [0] * n
+    completed_count = 0
+
+    print("\n--- Priority Scheduling ---")
+
+    while completed_count < n:
+        idx = -1
+        highest_priority = float("inf")  # lower value = higher priority
+
+        for i in range(n):
+            if arrival_time[i] <= time and not completed[i]:
+                if priority[i] < highest_priority:
+                    highest_priority = priority[i]
+                    idx = i
+
+        if idx == -1:  # no process ready
+            time += 1
+            continue
+
+    
+        time += burst_time[idx]
+        ct[idx] = time
+        tat[idx] = ct[idx] - arrival_time[idx]
+        wt[idx] = tat[idx] - burst_time[idx]
+        completed[idx] = True
+        completed_count += 1
+
+    
+    print("PID\tAT\tBT\tPri\tCT\tTAT\tWT")
+    for i in range(n):
+        print(f"P{processes[i]}\t{arrival_time[i]}\t{burst_time[i]}\t{priority[i]}\t{ct[i]}\t{tat[i]}\t{wt[i]}")
+
+    print(f"\nAverage TAT: {sum(tat)/n:.2f}")
+    print(f"Average WT : {sum(wt)/n:.2f}")
+
+
+
+priority_scheduling([1, 2, 3, 4], [5, 3, 8, 6], [0, 1, 2, 3], [2, 1, 4, 3])
