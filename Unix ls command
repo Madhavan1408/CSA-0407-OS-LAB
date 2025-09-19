@@ -1,0 +1,12 @@
+import os
+
+def ls_simulation(path="."):
+    print(f"Listing contents of directory: {os.path.abspath(path)}\n")
+    with os.scandir(path) as entries:
+        for entry in entries:
+            if entry.is_dir():
+                print(f"[DIR]  {entry.name}")
+            else:
+                print(f"[FILE] {entry.name}")
+
+ls_simulation(".")
