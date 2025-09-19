@@ -1,0 +1,40 @@
+def optimal_page_replacement(pages, capacity):
+    memory = []   # frames in memory
+    page_faults = 0
+
+    for i in range(len(pages)):
+        page = pages[i]
+
+
+        if page in memory:
+            continue
+
+      
+        if len(memory) < capacity:
+            memory.append(page)
+        else:
+        
+            farthest_index = -1
+            page_to_replace = None
+
+            for mem_page in memory:
+                if mem_page not in pages[i+1:]:
+                    page_to_replace = mem_page
+                    break
+                else:
+                    next_use = pages[i+1:].index(mem_page)
+                    if next_use > farthest_index:
+                        farthest_index = next_use
+                        page_to_replace = mem_page
+
+            memory[memory.index(page_to_replace)] = page
+
+        page_faults += 1
+        print(f"Step {i+1}: Page {page} → Memory: {memory}")
+
+    print("\nTotal Page Faults:", page_faults)
+
+
+pages = [7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2]
+capacity = 3
+optimal_page_replacement(pages, capacity)
