@@ -1,0 +1,42 @@
+class Block:
+    def __init__(self, block_no):
+        self.block_no = block_no
+        self.next = None
+
+class LinkedAllocation:
+    def __init__(self, filename):
+        self.filename = filename
+        self.start = None
+        self.end = None
+
+    def add_block(self, block_no):
+        new_block = Block(block_no)
+        if self.start is None:
+            self.start = self.end = new_block
+        else:
+            self.end.next = new_block
+            self.end = new_block
+
+    def display(self):
+        print(f"\nFile: {self.filename}")
+        current = self.start
+        print("Blocks: ", end="")
+        while current:
+            if current.next:
+                print(f"{current.block_no} → ", end="")
+            else:
+                print(f"{current.block_no} (end)", end="")
+            current = current.next
+        print()
+
+
+fileA = LinkedAllocation("fileA.txt")
+for block in [2, 6, 10, 15]:
+    fileA.add_block(block)
+
+fileB = LinkedAllocation("fileB.txt")
+for block in [5, 12, 20]:
+    fileB.add_block(block)
+
+fileA.display()
+fileB.display()
