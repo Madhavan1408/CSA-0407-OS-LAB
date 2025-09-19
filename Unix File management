@@ -1,0 +1,34 @@
+import os
+
+def unix_file_management():
+   
+    filename = "demo.txt"
+
+    
+    fd = os.open(filename, os.O_RDWR | os.O_CREAT)   # open returns file descriptor
+    print(f"File '{filename}' opened with file descriptor: {fd}")
+
+    
+    data = b"Hello! This is a demo of UNIX file management system calls.\n"
+    os.write(fd, data)
+    print("Data written to file.")
+
+  
+    os.lseek(fd, 0, os.SEEK_SET)   # move to beginning
+    print("File pointer moved to start using lseek().")
+
+    content = os.read(fd, 100).decode()
+    print("Data read from file:", content)
+
+    
+    info = os.stat(filename)
+    print("\nFile Information (using stat):")
+    print(f"Size: {info.st_size} bytes")
+    print(f"Permissions: {oct(info.st_mode)}")
+    print(f"Last modified: {info.st_mtime}")
+
+    
+    os.close(fd)
+    print(f"File '{filename}' closed successfully.")
+
+unix_file_management()
