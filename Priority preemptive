@@ -1,0 +1,51 @@
+def priority_preemptive(processes, arrival_time, burst_time, priority):
+    n = len(processes)
+
+    
+    remaining_time = burst_time.copy()
+    complete = 0
+    time = 0
+    ct = [0] * n  
+    tat = [0] * n 
+    wt = [0] * n  
+    while complete < n:
+        # Find process with highest priority among those arrived
+        idx = -1
+        highest_priority = float('inf')  # lower value = higher priority
+
+        for i in range(n):
+            if arrival_time[i] <= time and remaining_time[i] > 0:
+                if priority[i] < highest_priority:
+                    highest_priority = priority[i]
+                    idx = i
+
+        if idx == -1: 
+            time += 1
+            continue
+
+    
+        remaining_time[idx] -= 1
+        time += 1
+
+        if remaining_time[idx] == 0:
+            complete += 1
+            ct[idx] = time
+            tat[idx] = ct[idx] - arrival_time[idx]
+            wt[idx] = tat[idx] - burst_time[idx]
+
+    # Print results
+    print("PID\tAT\tBT\tPri\tCT\tTAT\tWT")
+    for i in range(n):
+        print(f"P{processes[i]}\t{arrival_time[i]}\t{burst_time[i]}\t{priority[i]}\t"
+              f"{ct[i]}\t{tat[i]}\t{wt[i]}")
+
+    print(f"\nAverage TAT: {sum(tat)/n:.2f}")
+    print(f"Average WT : {sum(wt)/n:.2f}")
+
+
+
+processes = [1, 2, 3, 4]
+arrival_time = [0, 1, 2, 3]
+burst_time = [7, 4, 1, 4]
+priority = [2, 1, 3, 2]   
+priority_preemptive(processes, arrival_time, burst_time, priority)
