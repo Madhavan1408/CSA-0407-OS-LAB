@@ -1,0 +1,19 @@
+import re
+
+def grep_simulation(pattern, filename):
+    print(f"Searching for '{pattern}' in file '{filename}'\n")
+    with open(filename, "r") as f:
+        for lineno, line in enumerate(f, start=1):
+            if re.search(pattern, line):
+                print(f"Line {lineno}: {line.strip()}")
+
+
+# First, create a demo file
+with open("sample.txt", "w") as f:
+    f.write("Hello World\n")
+    f.write("Operating Systems Lab\n")
+    f.write("We are simulating GREP command\n")
+    f.write("Python makes this easy\n")
+
+
+grep_simulation("Python", "sample.txt")
