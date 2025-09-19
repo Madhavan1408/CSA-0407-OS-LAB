@@ -1,0 +1,23 @@
+import threading
+import time
+
+# Function to run in threads
+def print_numbers(name):
+    for i in range(5):
+        print(f"{name}: {i}")
+        time.sleep(0.5)
+
+if __name__ == "__main__":
+    # Create threads
+    t1 = threading.Thread(target=print_numbers, args=("Thread-1",))
+    t2 = threading.Thread(target=print_numbers, args=("Thread-2",))
+
+    # Start threads
+    t1.start()
+    t2.start()
+
+    # Wait for threads to finish
+    t1.join()
+    t2.join()
+
+    print("Both threads finished execution.")
