@@ -1,0 +1,18 @@
+class IndexedAllocation:
+    def __init__(self, filename, blocks):
+        self.filename = filename
+        self.index_block = blocks  # list of block numbers
+
+    def display(self):
+        print(f"\nFile: {self.filename}")
+        print(f"Index Block → {self.index_block}")
+        for i, block in enumerate(self.index_block, start=1):
+            print(f"  Block {i} → Disk Block {block}")
+
+
+
+file1 = IndexedAllocation("file1.txt", [5, 7, 9, 11])
+file2 = IndexedAllocation("file2.txt", [3, 4, 8])
+
+file1.display()
+file2.display()
