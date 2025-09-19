@@ -1,0 +1,42 @@
+def cscan(requests, head, disk_size):
+    seek_sequence = []
+    seek_time = 0
+
+    left = [r for r in requests if r < head]
+    right = [r for r in requests if r >= head]
+
+
+    left.sort()
+    right.sort()
+
+
+    for r in right:
+        seek_sequence.append(r)
+        seek_time += abs(head - r)
+        head = r
+
+    if left:
+        seek_time += abs(disk_size - 1 - head)  # move to end
+        seek_time += (disk_size - 1)            # jump to start
+        head = 0
+
+
+    for r in left:
+        seek_sequence.append(r)
+        seek_time += abs(head - r)
+        head = r
+
+    return seek_sequence, seek_time
+
+
+
+requests = [95, 180, 34, 119, 11, 123, 62, 64]
+head = 50
+disk_size = 200   # assume cylinders 0–199
+
+seq, time = cscan(requests, head, disk_size)
+
+print("C-SCAN Disk Scheduling")
+print("Request sequence:", requests)
+print("Seek sequence:", seq)
+print("Total Seek Time:", time)
