@@ -1,0 +1,27 @@
+from multiprocessing import Process, Value
+import time
+
+def increment(shared_val):
+    for _ in range(5):
+        time.sleep(0.5)
+        shared_val.value += 1
+        print(f"Child process incremented value to: {shared_val.value}")
+
+if __name__ == "__main__":
+    # Shared memory (integer)
+    shared_value = Value('i', 0)  # 'i' = integer, initial value 0
+
+    print(f"Initial value in main process: {shared_value.value}")
+
+    # Create child process
+    p = Process(target=increment, args=(shared_value,))
+    p.start()
+
+    # Main process also modifies shared value
+    for _ in range(5):
+        time.sleep(0.5)
+        shared_value.value += 2
+        print(f"Main process added 2, value: {shared_value.value}")
+
+    p.join()
+    print(f"Final value in shared memory: {shared_value.value}")
