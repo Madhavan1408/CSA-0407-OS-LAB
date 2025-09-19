@@ -1,0 +1,42 @@
+import os
+import stat
+
+def show_permissions(filename):
+   
+    file_stat = os.stat(filename)
+    mode = file_stat.st_mode
+
+    print(f"\nFile: {filename}")
+
+    # Extract permissions
+    permissions = {
+        "Owner": {
+            "Read": bool(mode & stat.S_IRUSR),
+            "Write": bool(mode & stat.S_IWUSR),
+            "Execute": bool(mode & stat.S_IXUSR),
+        },
+        "Group": {
+            "Read": bool(mode & stat.S_IRGRP),
+            "Write": bool(mode & stat.S_IWGRP),
+            "Execute": bool(mode & stat.S_IXGRP),
+        },
+        "Others": {
+            "Read": bool(mode & stat.S_IROTH),
+            "Write": bool(mode & stat.S_IWOTH),
+            "Execute": bool(mode & stat.S_IXOTH),
+        },
+    }
+
+  t
+    for user, perms in permissions.items():
+        perms_str = ", ".join([p for p, allowed in perms.items() if allowed]) or "No Access"
+        print(f"{user} → {perms_str}")
+
+with open("demo_file.txt", "w") as f:
+    f.write("Linux permissions demo.")
+
+
+os.chmod("demo_file.txt", 0o644)
+
+\
+show_permissions("demo_file.txt")
